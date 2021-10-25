@@ -5,7 +5,7 @@ from pmsp.english.frequencies import Frequencies
 import pandas as pd
 
 import sys
-sys.path.insert(0, '/Users/akathian/Desktop/github/work/lab-ws/pmsp-torch/src')
+# sys.path.insert(0, '/Users/akathian/Desktop/github/work/lab-ws/pmsp-torch/src')
 
 graphemes = Graphemes()
 phonemes = Phonemes()
@@ -13,8 +13,7 @@ phonemes = Phonemes()
 
 def generate_probes():
     count = 0
-    df = pd.read_csv(
-        '/Users/akathian/Desktop/github/work/lab-ws/mcann-fix.csv')
+    df = pd.read_csv('./usr/mcann-fix.csv')
 
     last_item = ''
     out = ''
@@ -40,7 +39,7 @@ def generate_probes():
         # out += f"I: {' '.join([str(x) for x in phonology_vector])};"
         # out += "T") for base wor
 
-    f = open("mccann.ex", "w")
+    f = open("./var/mccann.ex", "w")
     f.write(out)
     f.close()
 
