@@ -2,9 +2,9 @@ all:
 	@echo ok
 
 run:
-	./mccann.py
+	./src/mccann.py
 
 requirements:
-	pip3 install -r requirements.txt
+	pip3 install -r ./src/requirements.txt
 
 .PHONY: all run requirements
