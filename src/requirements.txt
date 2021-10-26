@@ -1,1 +1,1 @@
-git+https://projects.sisrlab.com/cap-lab/pmsp-torch#subdirectory=src
+git+https://github.com/iandennismiller/pmsp-torch#subdirectory=src
