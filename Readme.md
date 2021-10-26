@@ -1,5 +1,15 @@
 # Pseudohomophones
 
+## Installation and Usage
+
+```{bash}
+git clone https://github.com/iandennismiller/pseudohomophone.git
+cd pseudohomophone
+mkvirtualenv -a . -p $(which python3) pseudohomophone # venv is optional
+make requirements
+make run
+```
+
 ## McCann and Besner, 1987
 
 - DOI:10.1037/0096-1523.13.1.14
