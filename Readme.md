@@ -1,16 +1,23 @@
-# McCann inspired investigation
+# Pseudohomophones
 
-(BA's Notes)
+## McCann and Besner, 1987
 
-## Step 1: Generate representations for all items in the PMSP format
+- DOI:10.1037/0096-1523.13.1.14
+- https://www.proquest.com/docview/614337696
+
+Pronunciation performance under speeded conditions was examined for various kinds of letter strings, including pseudohomophones (e.g., TRAX), their real word counterparts (e.g., TRACKS), and a set of nonword controls (e.g., PRAX). Experiment 1 yielded a pronunciation advantage for the pseudohomophones relative to the controls, which was largest among items having few or no orthographic neighbors. Experiment 2 ruled out an account of the pseudohomophone advantage based on differences between pseudohomophones and controls in initial phonemes. Experiment 3 established the existence of a large frequency effect on pronunciation of the base words themselves. These results suggest that whole word representations in the phonological output lexicon are consulted in the course of assembling a pronunciation and that representations in a phonological output lexicon are insensitive to word frequency.
+
+## (BA's Notes)
+
+### Step 1: Generate representations for all items in the PMSP format
 
 This should be easy, since it really just involves orthography for the two types of nonwords and copying the phonology for the actual words, if that is desired.  I guess technically there is a Step 1b where you run AS's patterns through the trained PMSP but I am assuming that just giving a new set of examples and recording outputs for those examples is a trivial task at this point.  I will assume this happens through PMSP simulation 3 run on 100 ticks and that conceivably you just put these nonwords into your existing example set that has "all" the stimuli, the base vocab, the anchors, the probes, etc. in it.  Thus, for a single point in time this would yield roughly 3200 examples run for 100 ticks each for which activity in about 300 units is recorded (input, hidden, output, but for now I will just focus on outputs).  We could run this crossed with epoch number, and we might want to do that in the future, but that also seems straightforward given the analyses you have already run.  
 
-## Step 2: Analyze the results
+### Step 2: Analyze the results
 
 This is where things get slightly trickier.  I'll break this point down into the two sub-analyses we care about, which concern speed and accuracy.  
 
-### Step 2a: Speed
+#### Step 2a: Speed
 
 There are a couple of ways to figure out when a neural network responds.  One way, which I believe you were going to implement in the near future if not already done, was to just repeat the PMSP method, which involves looking at when the output units are not changing activity levels above some threshold across successive ticks.  I think this is actually fairly easy to quantify because it just involves subtracting the output vector from tick n from that from tick n-1, taking the absolute value, averaging this number, and ensuring it falls below the threshold (0.00005  in the paper).  The resulting tick number (which range from 0-200) is the RT.  
 
@@ -22,7 +29,7 @@ If my hunch that the above might not work turns out to be true, the relatively e
 
 Basically then, AS could compute two or three simple measures of RT, perhaps with some parametric variation of the threshold to see how that impacts performance.  
 
-### Step 2b: accuracy
+#### Step 2b: accuracy
 
 I suppose to assess accuracy the first thing we need to do is just check what the network actually produced as an output.  Am I correct in that right now you are only examining how the model is performing for the vowel in your out-of-LENS tests, and not checking the rest of the word?  If yes, then I think AS could expand this to look at  the entire word's pronunciation.  The rules for determining what the model actually produced as an output are clearly spelled out in the PMSP paper, and basically involve reversing the process used to generate the phonology to interpret the phonology and see what the word output.  In PMSP, they basically take the ordered concatenation of all the non-mutually-exclusive phonemes with activities above 0.5, with a couple of minor caveats (e.g., you always must pronounce a vowel regardless of whether the most active vowel has activity > 0.5).  Most of this task is therefore straightforward, A just needs to pay close attention to the few caveats to the general rule.  Since we know what the caveats are, they should be easy for us to manually check a couple of relevant examples as well.  
 
@@ -33,6 +40,6 @@ With all of this complexity in hand, we could thus answer two simple questions:
 1. if we look at tick 200, are the base words and the pseudohomophones pronounced the same way?  
 2. If we look at the tick where the model was deemed to have responded per the "speed" measure above, are the words and the pseudohomophones produced "correctly"?  (i.e., are the words correct per training, and are the pseudohomophones pronounced the same way as their base words?)  How do their RTs fare compared to the control nonwords?
 
-## Conclusion
+### Conclusion
 
 If we know the answers to those questions and they are reasonable, we could then have him repeat a very similar analysis to what BL has done, perhaps even recycling some of BL's code, to see how the average similarity of the base words are to one another, of the pseudohomophones to one another, and of the control words to one another in each layer and in the correlations across layers (like Plaut's figure 18 that BL has worked with).  Having held phonological similarity constant and only varying orthographic similarity, we should then be able to better understand how information is being warped across each level of representation.  Ideally we would do the reverse (i.e., hold orthographic similarity constant and vary phonological similarity) but we can't do that in PMSP, so we must settle with what we have.
