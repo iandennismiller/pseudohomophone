@@ -13,10 +13,12 @@ phonemes = Phonemes()
 def generate_probes():
     count = 0
     df = pd.read_csv('./usr/mccann-fix.csv')
-
+    phonology_df = pd.read_csv('./usr/pmsp-data.csv')
     last_item = ''
     out = ''
     for idx, row in df.iterrows():
+        if row['Cat'] != 'PH':
+            continue
         item_id = row['Item ID']
         item = (row['Item'] if str(row['Item'])
                 != 'nan' else last_item).strip()
@@ -25,18 +27,14 @@ def generate_probes():
               ' - ' else row['Paired Associate']).strip()
 
         out += f"name: {{{item_id}_{item}_{pa}}}\n"
+
         grapheme_vector = graphemes.get_graphemes(item)
+        out += f"I: {' '.join([str(x) for x in grapheme_vector])}\n"
 
-        out += f"I: {' '.join([str(x) for x in grapheme_vector])}\n;\n"
-        # out += row
+        phonology = phonology_df.loc[idx]['phon']
+        phonology_vector = phonemes.get_phonemes(phonology)
 
-        # out += f"name: {{{count}_{row['PH']}_base_{row['Base Word']}}}"
-
-        # phonology_vector = phonemes.get_phonemes(row['PH'])
-
-        # orthography as input, use frequency as well
-        # out += f"I: {' '.join([str(x) for x in phonology_vector])};"
-        # out += "T") for base wor
+        out += f"T: {' '.join([str(x) for x in phonology_vector])};\n"
 
     f = open("./var/mccann.ex", "w")
     f.write(out)
