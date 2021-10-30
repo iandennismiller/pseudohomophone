@@ -16,11 +16,14 @@ generate-examples:
 requirements:
 	pip3 install -r ./src/requirements.txt
 
-lens:
+start-lens:
 	docker run -d --rm \
 		--name lens \
 		-p 5901:5901 \
 		-v $(PWD):/home/lens/Work/pseudohomophone \
 		iandennismiller/lens
+
+stop-lens:
+	docker container stop lens
 
 .PHONY: all run requirements lens
