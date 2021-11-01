@@ -1,5 +1,7 @@
 # Pseudohomophones
 
+> To help understand how the network is dealing with the similarity space of O-H(idden) and H-P across successive sets of weights, it seemed like the McCann & Besner stimuli quoted in the original PMSP paper could be relevant to look at, even without us having included semantics.  Or indeed, precisely because we did not include semantics.
+
 ## Installation and Usage
 
 ```{bash}
