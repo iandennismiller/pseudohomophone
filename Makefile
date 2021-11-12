@@ -1,14 +1,23 @@
 all:
 	@echo ok
 
-run-activations:
+run-activations-mccann:
 	docker exec lens sudo -u lens /bin/bash -c '\
 		cd /home/lens/Work/pseudohomophone && \
 		PMSP_RANDOM_SEED=1 \
 		PMSP_DILUTION=0 \
 		PMSP_PARTITION=0 \
 		./bin/alens-batch.sh \
-			./src/produce-activations.tcl'
+			./src/produce-activations-mccann.tcl'
+
+run-activations-pmsp:
+	docker exec lens sudo -u lens /bin/bash -c '\
+		cd /home/lens/Work/pseudohomophone && \
+		PMSP_RANDOM_SEED=1 \
+		PMSP_DILUTION=0 \
+		PMSP_PARTITION=0 \
+		./bin/alens-batch.sh \
+			./src/produce-activations-pmsp.tcl'
 
 generate-examples:
 	./src/mccann.py
