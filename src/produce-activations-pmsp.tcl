@@ -34,6 +34,7 @@ set log_hidden_filename [open "${results_path}/activations-hidden.txt" w ]
 source ./activations.tcl
 source ./recurrent-network.tcl
 
+train -a "deltaBarDelta" -setOnly
 setObj learningRate 0.05
 setObj momentum 0.98
 
@@ -59,7 +60,7 @@ viewUnits -updates 3
 
 # load a network that has been already trained
 resetNet
-loadWeights "${root_path}/usr/2000.wt.gz"
+loadWeights "${root_path}/usr/1999-d3s1p2.wt.gz"
 
 # `test` doesn't provide access to hidden units via postExampleProc
 # use train instead
