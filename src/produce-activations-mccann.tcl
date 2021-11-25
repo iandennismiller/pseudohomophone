@@ -22,7 +22,7 @@ set root_path "../"
 
 set example_file "${root_path}/var/mccann.ex"
 
-set results_path "${root_path}/var/results"
+set results_path "${root_path}/var/results-mccann-activations"
 file mkdir $results_path
 
 global log_outputs_filename

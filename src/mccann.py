@@ -30,6 +30,7 @@ def generate_probes():
 
         grapheme_vector = graphemes.get_graphemes(item)
         out += f"I: {' '.join([str(x) for x in grapheme_vector])}\n"
+        print(f"{item} {graphemes._get_graphemes(item)}")
 
         phonology = phonology_df.loc[idx]['phon']
         phonology_vector = phonemes.get_phonemes(phonology)
