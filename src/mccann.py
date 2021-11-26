@@ -17,6 +17,8 @@ def generate_probes():
     last_item = ''
     out = ''
     for idx, row in df.iterrows():
+        # print(row)
+
         if row['Cat'] != 'PH':
             continue
         item_id = row['Item ID']
@@ -30,12 +32,14 @@ def generate_probes():
 
         grapheme_vector = graphemes.get_graphemes(item)
         out += f"I: {' '.join([str(x) for x in grapheme_vector])}\n"
-        print(f"{item} {graphemes._get_graphemes(item)}")
+        # print(f"{item} {graphemes._get_graphemes(item)}")
 
         phonology = phonology_df.loc[idx]['phon']
+        # print(phonology_df.loc[idx])
         phonology_vector = phonemes.get_phonemes(phonology)
+        print(f"{item} {phonology} {phonemes.get_phonemes(phonology)}")
 
-        out += f"T: {' '.join([str(x) for x in phonology_vector])};\n"
+        out += f"T: {' '.join([str(x) for x in phonology_vector])};\n\n"
 
     f = open("./var/mccann.ex", "w")
     f.write(out)

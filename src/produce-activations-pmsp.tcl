@@ -66,7 +66,6 @@ loadWeights "${root_path}/usr/1999-d3s1p2.wt.gz"
 # use train instead
 train 1
 
-close $log_outputs_filename
-close $log_hidden_filename
+write_and_close_logs $log_outputs_filename $log_hidden_filename
 
 exit

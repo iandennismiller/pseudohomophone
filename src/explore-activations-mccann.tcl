@@ -15,7 +15,7 @@ set partition_id 1
 puts "Partition ID: $partition_id"
 
 # unique name of this script, for naming saved weights
-set script_name "mccann-activations"
+set script_name "mccann-activations-explore"
 
 # root of project is relative to this .tcl file
 set root_path "../"
@@ -23,16 +23,16 @@ set root_path "../"
 # set example_file "${root_path}/var/mccann.ex"
 set example_file "${root_path}/usr/pmsp-train.ex"
 
-# set results_path "${root_path}/var/results"
-# file mkdir $results_path
+set results_path "${root_path}/var/results-${script_name}"
+file mkdir $results_path
 
-# global log_outputs_filename
-# set log_outputs_filename [open "${results_path}/activations-output.txt" w ]
+global log_outputs_filename
+set log_outputs_filename [open "${results_path}/activations-output.txt" w ]
 
-# global log_hidden_filename
-# set log_hidden_filename [open "${results_path}/activations-hidden.txt" w ]
+global log_hidden_filename
+set log_hidden_filename [open "${results_path}/activations-hidden.txt" w ]
 
-# source ./activations.tcl
+source ./activations.tcl
 source ./recurrent-network.tcl
 
 train -a "deltaBarDelta" -setOnly
@@ -54,20 +54,19 @@ setObj vocab.maxTime 2.0
 setObj vocab.graceTime 1.0
 
 # install hook to log activations
-# setObj postTickProc { log_activations_hook }
+setObj postTickProc { log_activations_hook }
 
 # Need to view units to be able to access the history arrays.
 viewUnits -updates 3
 
 # load a network that has been already trained
-resetNet
-loadWeights "${root_path}/usr/1999-d3s1p2.wt.gz"
+# resetNet
+loadWeights "${root_path}/usr/1999-pmsp.wt.gz"
 
 # `test` doesn't provide access to hidden units via postExampleProc
 # use train instead
 train 1
 
-# close $log_outputs_filename
-# close $log_hidden_filename
+write_and_close_logs $log_outputs_filename $log_hidden_filename
 
 # exit

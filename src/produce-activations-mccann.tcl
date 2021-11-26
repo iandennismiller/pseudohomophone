@@ -15,14 +15,14 @@ set partition_id $::env(PMSP_PARTITION)
 puts "Partition ID: $partition_id"
 
 # unique name of this script, for naming saved weights
-set script_name "mccann-activations"
+set script_name "mccann-activations-buffered"
 
 # root of project is relative to this .tcl file
 set root_path "../"
 
 set example_file "${root_path}/var/mccann.ex"
 
-set results_path "${root_path}/var/results-mccann-activations"
+set results_path "${root_path}/var/results-${script_name}"
 file mkdir $results_path
 
 global log_outputs_filename
@@ -61,13 +61,15 @@ viewUnits -updates 3
 # load a network that has been already trained
 resetNet
 # loadWeights "${root_path}/usr/1999-d3s1p2.wt.gz"
-loadWeights "${root_path}/usr/2000.wt.gz"
+loadWeights "${root_path}/usr/1999-pmsp.wt.gz"
 
 # `test` doesn't provide access to hidden units via postExampleProc
 # use train instead
 train 1
 
-close $log_outputs_filename
-close $log_hidden_filename
+# close $log_outputs_filename
+# close $log_hidden_filename
+
+write_and_close_logs ${log_hidden_filename} ${log_outputs_filename}
 
 exit
