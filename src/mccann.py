@@ -28,18 +28,27 @@ def generate_probes():
         pa = (row['Item'] if row['Paired Associate'] ==
               ' - ' else row['Paired Associate']).strip()
 
-        out += f"name: {{{item_id}_{item}_{pa}}}\n"
+        # locate item in phonology df that matches `pa`
+        pa_row = phonology_df.loc[ phonology_df['orth'] == pa ]
 
-        grapheme_vector = graphemes.get_graphemes(item)
-        out += f"I: {' '.join([str(x) for x in grapheme_vector])}\n"
-        # print(f"{item} {graphemes._get_graphemes(item)}")
+        # if a corresponding phonology is found, generate this example
+        if pa_row['phon'].any():
+            out += f"name: {{{item_id}_{item}_{pa}}}\n"
 
-        phonology = phonology_df.loc[idx]['phon']
-        # print(phonology_df.loc[idx])
-        phonology_vector = phonemes.get_phonemes(phonology)
-        print(f"{item} {phonology} {phonemes.get_phonemes(phonology)}")
+            grapheme_vector = graphemes.get_graphemes(item)
+            out += f"I: {' '.join([str(x) for x in grapheme_vector])}\n"
+            print(f"orthography     {item} {graphemes._get_graphemes(item)}")
 
-        out += f"T: {' '.join([str(x) for x in phonology_vector])};\n\n"
+            
+            phonology = pa_row['phon'].iloc[0]
+
+            phonology_vector = phonemes.get_phonemes(phonology)
+            print(f"phonology       {item} {phonology} {phonemes.get_phonemes(phonology)}")
+
+            out += f"T: {' '.join([str(x) for x in phonology_vector])};\n\n"
+        else:
+            print(f"no match for {pa}")
+            # sys.exit(1)
 
     f = open("./var/mccann.ex", "w")
     f.write(out)
