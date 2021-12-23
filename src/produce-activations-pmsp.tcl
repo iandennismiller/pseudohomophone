@@ -20,7 +20,7 @@ set script_name "pmsp-activations"
 # root of project is relative to this .tcl file
 set root_path "../"
 
-set example_file "${root_path}/usr/pmsp-train.ex"
+set example_file "${root_path}/usr/pmsp-train-the-normalized.ex"
 
 set results_path "${root_path}/var/results-${script_name}"
 file mkdir $results_path
@@ -60,7 +60,7 @@ viewUnits -updates 3
 
 # load a network that has been already trained
 resetNet
-loadWeights "${root_path}/usr/1999-d3s1p2.wt.gz"
+loadWeights "${root_path}/usr/1999-pmsp.wt.gz"
 
 # `test` doesn't provide access to hidden units via postExampleProc
 # use train instead
